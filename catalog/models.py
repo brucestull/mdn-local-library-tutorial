@@ -110,6 +110,14 @@ class Book(models.Model):
         """
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        """
+        Create a string for the Genre. This is required to display genres in `catalog.Book` Admin.
+        """
+        return ', '.join(genre.name for genre in self.genre.all()[:4])
+
+    display_genre.short_description = 'Genre(s)'
+
 
 
 class BookInstance(models.Model):
@@ -129,14 +137,13 @@ class BookInstance(models.Model):
     )
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
-
+    
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
         ('a', 'Available'),
         ('r', 'Reserved'),
     )
-
     status = models.CharField(
         max_length=1,
         choices=LOAN_STATUS,
