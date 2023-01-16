@@ -18,10 +18,7 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView, TemplateView
 
 urlpatterns = [
-    # `{% url 'home' %}` and `{% url 'catalog:home' %}` should route to same URL/view.
-    # path('', RedirectView.as_view(pattern_name='catalog:home'), name= 'home'),
-
-    path('', RedirectView.as_view(pattern_name='admin:index'), name='django-admin-site-place'),
+    path('', RedirectView.as_view(pattern_name='catalog:index')),
 
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
