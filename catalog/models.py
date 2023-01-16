@@ -108,7 +108,7 @@ class Book(models.Model):
         """
         Returns the URL to access a detail record for this book.
         """
-        return reverse('book-detail', args=[str(self.id)])
+        return reverse('catalog:book-detail', args=[str(self.id)])
 
     def display_genre(self):
         """
