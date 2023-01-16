@@ -18,10 +18,12 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView, TemplateView
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='catalog:index')),
+    path('', RedirectView.as_view(pattern_name='catalog:index'), name='home'),
 
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
+
+    path('accounts/', include('django.contrib.auth.urls')),
 
     path('catalog/', include('catalog.urls')),
 ]

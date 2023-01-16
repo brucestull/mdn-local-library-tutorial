@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+
+{% block title %}You have been logged out{% endblock title %}
+
+{% block content %}
+    <p>Logged out!</p>
+    <a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock content %}
