@@ -2,6 +2,9 @@ import uuid # Required for unique book instances
 
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+
+from datetime import date
 
 
 class Author(models.Model):
@@ -20,7 +23,7 @@ class Author(models.Model):
         """
         Returns the URL to access a particular author instance.
         """
-        return reverse('author-detail', args=[str(self.id)])
+        return reverse('catalog:author-detail', args=[str(self.id)])
 
     def __str__(self):
         """
@@ -136,6 +139,12 @@ class BookInstance(models.Model):
         null=True,
     )
     imprint = models.CharField(max_length=200)
+    borrower = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
     due_back = models.DateField(null=True, blank=True)
     
     LOAN_STATUS = (
@@ -154,6 +163,14 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (('can_mark_returned', 'Set book as returned'),)
+
+    @property
+    def is_overdue(self):
+        """
+        Determines if the book instance is overdue (The user has not returned the book in time).
+        """
+        return bool(self.due_back and date.today() > self.due_back)
 
     def __str__(self):
         """

@@ -113,6 +113,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
     list_display = (
         'book',
         'status',
+        'borrower',
         'due_back',
         'id',
     )
@@ -132,6 +133,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': (
                 'status',
                 'due_back',
+                'borrower',
             ),
         }),
     )

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Author, Language, Genre, Book, BookInstance
 
@@ -36,7 +37,7 @@ def index(request):
 
 class BookListView(ListView):
     model = Book
-    paginate_by = 3
+    paginate_by = 4
 
     # def get_queryset(self):
     #     """
@@ -58,3 +59,41 @@ class BookListView(ListView):
 
 class BookDetailView(DetailView):
     model = Book
+
+
+class AuthorListView(ListView):
+    model = Author
+    paginate_by = 3
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    
+class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
+    """
+    Generic class-based view listing books on loan to current user.
+    """
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(
+            borrower=self.request.user
+        ).filter(
+            status__exact='o'
+        ).order_by('due_back')
+
+
+class LoanedBooksAllListView(LoginRequiredMixin, ListView):
+    """
+    Generic class-based view listing all books on loan.
+    """
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_all.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(
+            status__exact='o'
+        ).order_by('due_back')

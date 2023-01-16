@@ -21,4 +21,14 @@ MIDDLEWARE = [
     # Associates users with requests using sessions.
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     # …
+]
 ```
+
+* Current position in tutorial:
+  * <https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication#challenge_yourself>
+
+## Links
+
+* <http://localhost:8000/catalog/>
+* <http://localhost:8000/accounts/login/>
+* <http://localhost:8000/accounts/logout/>

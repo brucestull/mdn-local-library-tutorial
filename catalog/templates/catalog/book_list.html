@@ -13,11 +13,14 @@
                     >
                     {{ book.title }}
                 </a>
-            ({{book.author}})
+                - {{ book.bookinstance_set.count }} copies
+                -
+                ({{book.author}})
             </li>
         {% endfor %}
     </ul>
     {% else %}
         <p>There are no books in the library.</p>
     {% endif %}
+    {{ additonal_context_variable }}
 {% endblock content %}
