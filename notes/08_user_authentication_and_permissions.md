@@ -24,9 +24,6 @@ MIDDLEWARE = [
 ]
 ```
 
-* Current position in tutorial:
-  * <https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication#challenge_yourself>
-
 ## Links
 
 * <http://localhost:8000/catalog/>

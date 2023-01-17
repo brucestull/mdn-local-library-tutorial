@@ -11,8 +11,11 @@
                 <a
                     href="{{ author.get_absolute_url }}"
                     >
-                    {{ author.last_name }}
+                    {{ author }}
                 </a>
+            </li>
+            <li>
+                Number of Titles: {{ author.book_set.count }}
             </li>
         {% endfor %}
     </ul>
