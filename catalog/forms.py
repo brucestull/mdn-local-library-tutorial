@@ -5,6 +5,9 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 class RenewBookForm(forms.Form):
+    """
+    Form for a librarian to renew a loaned book.
+    """
     renewal_date = forms.DateField(
         help_text="Enter a date between now and 4 weeks (default 3).",
     )
@@ -23,5 +26,5 @@ class RenewBookForm(forms.Form):
                 _('Invalid date - renewal more than 4 weeks ahead')
             )
 
-        # Remember to always return the cleaned data.
+        # Return the `data` that has been processed (cleaned).
         return data

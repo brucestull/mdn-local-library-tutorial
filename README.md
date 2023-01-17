@@ -8,6 +8,17 @@ Code for learning some concepts used in MDN's Local Library tutorial.
   * Testing knowledge is needed for my [bruce-stull-portfolio](https://github.com/brucestull/bruce-stull-portfolio) app.
 * Use this tutorial to review how to modify Django Admin interface.
 
+## Concepts I Need to Further Explore
+
+* <https://docs.djangoproject.com/en/4.1/ref/exceptions/#django.core.exceptions.ValidationError>
+  * [`catalog/forms.py`](./catalog/forms.py) - Line 19
+
+## Interesting Concept Descriptions
+
+* `Binding`:
+  * "However, if this is a POST request, then we create our form object and populate it with data from the request. This process is called "binding" and allows us to validate the form."
+  * "Binding" is the process of creating a form object from the data provided by the user, and any other 'hidden' data.
+
 ## Resources
 
 * [Django Tutorial: The Local Library website](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website)
