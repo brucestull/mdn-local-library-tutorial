@@ -112,13 +112,21 @@ class LoanedBooksAllListView(PermissionRequiredMixin, ListView):
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
 def renew_book_librarian(request, pk):
+    """
+    View function for a Librarian to renew a specific `BookInstance`.
+    """
     book_instance = get_object_or_404(BookInstance, pk=pk)
 
+    # If the HTTP request method is `POST`:
     if request.method == 'POST':
-
+        # Use the `RenewBookForm` to validate the data the user submitted.
         form = RenewBookForm(request.POST)
-
+        # If the user submitted values are valid:
+          # No errors in the form:
+            # From our `clean_renewal_date`.
+            # And any other Django-provided default validation.
         if form.is_valid():
+            # "The cleaned data is sanitized, validated, and converted into Python-friendly types."
             book_instance.due_back = form.cleaned_data['renewal_date']
             book_instance.save()
 
