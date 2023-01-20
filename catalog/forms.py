@@ -9,18 +9,22 @@ from catalog.models import BookInstance
 
 class RenewBookModelForm(ModelForm):
     def clean_due_back(self):
-       data = self.cleaned_data['due_back']
+        """
+        Override the `clean` method for the `due_back` field.
 
-       # Check if a date is not in the past.
-       if data < datetime.date.today():
-           raise ValidationError(_('Invalid date - renewal in past'))
+        `clean_<fieldname>()` is a special method that is called when the
+        form is validated. It can be used to add custom validation logic
+        to a field.
+        """
+        data = self.cleaned_data['due_back']
 
-       # Check if a date is in the allowed range (+4 weeks from today).
-       if data > datetime.date.today() + datetime.timedelta(weeks=4):
-           raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
+        if data < datetime.date.today():
+            raise ValidationError(_('Invalid date - renewal in past'))
 
-       # Remember to always return the cleaned data.
-       return data
+        if data > datetime.date.today() + datetime.timedelta(weeks=4):
+            raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
+
+        return data
 
     class Meta:
         model = BookInstance
