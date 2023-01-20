@@ -9,7 +9,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from catalog.models import Author, Language, Genre, Book, BookInstance
-from catalog.forms import RenewBookModelForm
+from catalog.forms import RenewBookForm
 
 
 def index(request):
@@ -119,22 +119,22 @@ def renew_book_librarian(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
 
     if request.method == 'POST':
-        # Use the `RenewBookModelForm` to validate the data the user submitted.
-        form = RenewBookModelForm(request.POST)
+        # Use the `RenewBookForm` to validate the data the user submitted.
+        form = RenewBookForm(request.POST)
         # If the user submitted values are valid:
           # No errors in the form:
             # From our `clean_renewal_date`.
             # And any other Django-provided default validation.
         if form.is_valid():
             # "The cleaned data is sanitized, validated, and converted into Python-friendly types."
-            book_instance.due_back = form.cleaned_data['due_back']
+            book_instance.due_back = form.cleaned_data['renewal_date']
             book_instance.save()
 
             return HttpResponseRedirect(reverse('catalog:all-borrowed'))
 
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookModelForm(initial={'due_back': proposed_renewal_date})
+        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
 
     context = {
         'form': form,
