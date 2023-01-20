@@ -7,6 +7,8 @@
 
     <p><strong>Last Name:</strong> {{ author.last_name }}</p>
     <p><strong>First Name:</strong> {{ author.first_name }}</p>
+    <p><a href={% url 'catalog:author-update' author.id %}>Edit Author</a></p>
+    <p><a href={% url 'catalog:author-delete' author.id %}>Delete Author</a></p>
 
     <div style="margin-left:20px;margin-top:20px">
         <h2>Books</h2>

@@ -7,7 +7,6 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from catalog.forms import RenewBookForm
 from .models import Author, Language, Genre, Book, BookInstance
 
 
@@ -108,6 +107,8 @@ class LoanedBooksAllListView(PermissionRequiredMixin, ListView):
         ).order_by('due_back')
 
 
+from catalog.forms import RenewBookForm
+
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
@@ -142,3 +143,65 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'catalog/book_renew_librarian.html', context)
+
+
+# from catalog.forms import RenewBookModelForm
+
+
+# @login_required
+# @permission_required('catalog.can_mark_returned', raise_exception=True)
+# def renew_book_librarian(request, pk):
+#     """
+#     View function for a Librarian to renew a specific `BookInstance`.
+#     """
+#     book_instance = get_object_or_404(BookInstance, pk=pk)
+
+#     # If the HTTP request method is `POST`:
+#     if request.method == 'POST':
+#         # Use the `RenewBookForm` to validate the data the user submitted.
+#         form = RenewBookModelForm(request.POST)
+#         # If the user submitted values are valid:
+#           # No errors in the form:
+#             # From our `clean_renewal_date`.
+#             # And any other Django-provided default validation.
+#         if form.is_valid():
+#             # "The cleaned data is sanitized, validated, and converted into Python-friendly types."
+#             book_instance.due_back = form.cleaned_data['due_back']
+#             book_instance.save()
+
+#             return HttpResponseRedirect(reverse('catalog:all-borrowed'))
+
+#     else:
+#         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+#         form = RenewBookModelForm(initial={'due_back': proposed_renewal_date})
+
+#     context = {
+#         'form': form,
+#         'book_instance': book_instance,
+#     }
+
+#     return render(request, 'catalog/book_renew_librarian.html', context)
+
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+from catalog.models import Author
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    initial = {'date_of_death': '11/06/2020'}
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    # fields = '__all__' # Not recommended (potential security issue if more fields added)
+    fields = [
+        'first_name',
+        'last_name',
+        'date_of_birth',
+        'date_of_death',
+    ]
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('catalog:authors')
