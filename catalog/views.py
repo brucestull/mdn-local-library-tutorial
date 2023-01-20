@@ -44,6 +44,18 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
+########################################################################
+# Book Views
+
+DEFAULT_BOOK_FIELDS = [
+    'title',
+    'author',
+    'summary',
+    'isbn',
+    'genre',
+    'language',
+]
+
 class BookListView(ListView):
     model = Book
     paginate_by = 4
@@ -52,7 +64,9 @@ class BookListView(ListView):
     #     """
     #     Get all the `Book` objects from the database.
 
-    #     This method is not really needed since the default `get_queryset` method will return all books. We're keeping it here for demonstration purposes and a reminder that we could override the default behavior.
+    #     This method is not really needed since the default `get_queryset`
+    # method will return all books. We're keeping it here for demonstration
+    # purposes and a reminder that we could override the default behavior.
     #     """
     #     return Book.objects.all()
 
@@ -70,14 +84,25 @@ class BookDetailView(DetailView):
     model = Book
 
 
-class AuthorListView(ListView):
-    model = Author
-    paginate_by = 3
+class BookCreate(CreateView):
+    model = Book
+    fields = DEFAULT_BOOK_FIELDS
 
 
-class AuthorDetailView(DetailView):
-    model = Author
+class BookUpdate(UpdateView):
+    model = Book
+    fields = DEFAULT_BOOK_FIELDS
 
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('catalog:books')
+
+########################################################################
+
+
+########################################################################
+# BookInstance Views
 
 class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
     """
@@ -108,6 +133,8 @@ class LoanedBooksAllListView(PermissionRequiredMixin, ListView):
         return BookInstance.objects.filter(
             status__exact='o'
         ).order_by('due_back')
+
+########################################################################
 
 
 @login_required
@@ -144,15 +171,33 @@ def renew_book_librarian(request, pk):
     return render(request, 'catalog/book_renew_librarian.html', context)
 
 
+########################################################################
+# Author Views
+
+class AuthorListView(ListView):
+    model = Author
+    paginate_by = 3
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+
+
 class AuthorCreate(CreateView):
     model = Author
-    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    fields = [
+        'first_name',
+        'last_name',
+        'date_of_birth',
+        'date_of_death'
+    ]
     initial = {'date_of_death': '11/06/2020'}
 
 
 class AuthorUpdate(UpdateView):
     model = Author
-    # fields = '__all__' # Not recommended (potential security issue if more fields added)
+    # fields = '__all__' # Not recommended (potential security issue if
+    # more fields added)
     fields = [
         'first_name',
         'last_name',
@@ -164,3 +209,5 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('catalog:authors')
+
+########################################################################

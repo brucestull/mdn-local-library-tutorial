@@ -11,6 +11,13 @@
     <p><strong>Language:</strong> {{ book.language }}</p>
     <p><strong>Genre:</strong> {{ book.genre.all | join:", " }}</p>
 
+    <button onclick="location.href='{% url 'catalog:book-update' book.id %}'">
+        Update "{{ book.title }}"
+    </button>
+    <button onclick="location.href='{% url 'catalog:book-delete' book.id %}'">
+        Delete "{{ book.title }}"
+    </button>
+
     <div style="margin-left:20px;margin-top:20px">
         <h4>Copies</h4>
 
