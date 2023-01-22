@@ -5,7 +5,7 @@ Code for learning some concepts used in MDN's Local Library tutorial.
 ## Purposes
 
 * Use this tutorial to review Django testing concepts.
-  * Testing knowledge is needed for my [bruce-stull-portfolio](https://github.com/brucestull/bruce-stull-portfolio) app.
+  * Testing knowledge is needed for my portfolio app.
 * Use this tutorial to review how to modify Django Admin interface.
 
 ## Concepts I Need to Further Explore
