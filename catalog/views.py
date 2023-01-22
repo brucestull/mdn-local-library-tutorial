@@ -183,7 +183,7 @@ class AuthorDetailView(DetailView):
     model = Author
 
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = [
         'first_name',
@@ -192,6 +192,7 @@ class AuthorCreate(CreateView):
         'date_of_death'
     ]
     initial = {'date_of_death': '11/06/2020'}
+    permission_required = 'catalog.can_mark_returned'
 
 
 class AuthorUpdate(UpdateView):
