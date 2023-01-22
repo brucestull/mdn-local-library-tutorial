@@ -22,16 +22,16 @@ class AuthorListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('authors'))
+        response = self.client.get(reverse('catalog:authors'))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('authors'))
+        response = self.client.get(reverse('catalog:authors'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'catalog/author_list.html')
 
     def test_pagination_is_ten(self):
-        response = self.client.get(reverse('authors'))
+        response = self.client.get(reverse('catalog:authors'))
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] is True)
@@ -39,7 +39,7 @@ class AuthorListViewTest(TestCase):
 
     def test_lists_all_authors(self):
         # Get second page and confirm it has (exactly) the remaining 3 items
-        response = self.client.get(reverse('authors')+'?page=2')
+        response = self.client.get(reverse('catalog:authors')+'?page=2')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] is True)
@@ -320,7 +320,7 @@ class AuthorCreateViewTest(TestCase):
 
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(reverse('catalog:author-create'))
-        self.assertRedirects(response, '/accounts/login/?next=/catalog/author/create/')
+        self.assertRedirects(response, '/accounts/login/?next=/catalog/authors/create/')
 
     def test_forbidden_if_logged_in_but_not_correct_permission(self):
         login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
@@ -354,4 +354,4 @@ class AuthorCreateViewTest(TestCase):
                                     {'first_name': 'Christian Name', 'last_name': 'Surname'})
         # Manually check redirect because we don't know what author was created
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith('/catalog/author/'))
+        self.assertTrue(response.url.startswith('/catalog/authors/'))
