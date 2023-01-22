@@ -4,6 +4,13 @@
 
 {% block content %}
     <h1>Author List</h1>
+    <button
+        type="button"
+        class="btn btn-primary"
+        onclick="location.href='{% url 'catalog:author-create' %}'"
+        >
+        Create New Author
+    </button>
     {% if author_list %}
     <ul>
         {% for author in author_list %}

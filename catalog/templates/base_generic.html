@@ -18,6 +18,11 @@
           <div class="col-sm-2">
 			{% block sidebar %}
 				<ul class="sidebar-nav">
+                    <li>
+                    <a href="https://github.com/brucestull/mdn-local-library-tutorial">
+                        GitHub Repository
+                    </a>
+                    </li>
                     {% if user.is_staff %}
                         <li><a href={% url 'admin:index' %}>Django Admin Site</a></li>
                     {% endif %}
@@ -29,7 +34,6 @@
                     {% if user.is_authenticated %}
                         <li>User: {{ user.get_username }}</li>
                         <li><a href="{% url 'catalog:my-borrowed' %}">My Borrowed</a></li>
-                        {% comment %} <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li> {% endcomment %}
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
@@ -38,8 +42,6 @@
                 <ul class="sidebar-nav">
                     {% if perms.catalog.can_mark_returned %}
                         <p>Librarian (<code>can_mark_returned</code>):</p>
-                        <!-- We can mark a BookInstance as returned. -->
-                        <!-- Perhaps add code to link to a "book return" view here. -->
                         <li><a href="{% url 'catalog:all-borrowed' %}">All Borrowed</a></li>
                     {% endif %}
                 </ul>

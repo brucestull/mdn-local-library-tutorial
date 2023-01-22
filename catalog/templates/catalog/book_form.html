@@ -9,11 +9,11 @@
 			{{ form.as_table }}
 		</table>
 		<input type="submit" value="Submit" />
-		<button
-			type="button"
-			onclick="location.href='{% url 'catalog:book-detail' book.id %}'"
-			>
-			Cancel
-		</button>
 	</form>
+	<button
+		type="button"
+		onclick="location.href='{% url 'catalog:books' %}'"
+		>
+		Cancel
+	</button>
 {% endblock content %}

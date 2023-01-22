@@ -4,6 +4,13 @@
 
 {% block content %}
     <h1>Book List</h1>
+    <button
+        type="button"
+        class="btn btn-primary"
+        onclick="location.href='{% url 'catalog:book-create' %}'"
+        >
+        Create New Book
+    </button>
     {% if book_list %}
     <ul>
         {% for book in book_list %}
